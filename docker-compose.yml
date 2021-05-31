@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: controlescolar
+      MYSQL_USER: usercontrolescolar
+      MYSQL_PASSWORD: usercontrolescolar123
+    volumes:
+      - db:/var/lib/mysql
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080      
+    environment:
+      DB_URL: db
+      DB_USER: usercontrolescolar
+      DB_PASSWORD: usercontrolescolar123
+#    volumes:
+#      - ./ConfigDB.xml:/usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mx/edu/uaz/SistemaControlEscolar/db/ConfigDB.xml
+#
+volumes:
+  db:
